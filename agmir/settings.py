@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-#id4#caz(j*^du=+!w1o@u)r^v7-w!=3qsfr@!hkd-471_pm$m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://shorter.up.railway.app","shorter.up.railway.app" ,'https://agmir.link', 'https://www.agmir.link','agmir.link']
+ALLOWED_HOSTS = ["https://shorter.up.railway.app","shorter.up.railway.app" ,'https://agmir.link', 'www.agmir.link','agmir.link']
 
 
 # Application definition
