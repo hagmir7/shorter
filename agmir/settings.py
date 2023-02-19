@@ -35,7 +35,11 @@ ALLOWED_HOSTS = [
     "localhost"
 ]
 
-CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
+CSRF_TRUSTED_ORIGINS = [
+    "https://shorter.up.railway.app",
+    'https://agmir.link',
+    'https://www.agmir.link' ,
+]
 
 
 # Application definition
