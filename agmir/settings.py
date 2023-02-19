@@ -35,6 +35,8 @@ ALLOWED_HOSTS = [
     "localhost"
 ]
 
+CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
+
 
 # Application definition
 
