@@ -26,7 +26,14 @@ SECRET_KEY = 'django-insecure-#id4#caz(j*^du=+!w1o@u)r^v7-w!=3qsfr@!hkd-471_pm$m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://shorter.up.railway.app","shorter.up.railway.app" ,'https://agmir.link','https://www.agmir.link' ,'www.agmir.link','agmir.link']
+ALLOWED_HOSTS = [
+    "https://shorter.up.railway.app",
+    "shorter.up.railway.app" ,
+    'https://agmir.link',
+    'https://www.agmir.link' ,
+    'www.agmir.link','agmir.link',
+    "localhost"
+]
 
 
 # Application definition
@@ -38,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'chort'
+    'chort',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -48,6 +56,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -147,6 +156,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-GEOIP_PATH = 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&license_key=AC9ugDSqnMXGkiZx&suffix=tar.gz'

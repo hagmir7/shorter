@@ -463,7 +463,7 @@ h6 {
 
 @media (max-width: 991px) {
   #hero {
-    height: 100vh;
+    height: auto;
     text-align: center;
   }
 
@@ -1729,7 +1729,7 @@ section {
   width: calc(100% - 100px);
 }
 
-#footer .footer-newsletter form input[type=button] {
+#footer .footer-newsletter form button {
   position: absolute;
   top: 0;
   right: 0;
@@ -1743,6 +1743,15 @@ section {
   transition: 0.3s;
   border-radius: 50px;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.spinner-border{
+  height: 30px;
+  width: 30px;
+}
+
+.pointer{
+  cursor: pointer;
 }
 
 #footer .footer-newsletter form input[type=submit]:hover {

@@ -1,15 +1,16 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from .models import *
 from django.views.decorators.csrf import csrf_exempt
 import json
+import requests
+import qrcode
+from io import BytesIO
+from django.core.files.base import ContentFile
+from django.shortcuts import render
+from django_user_agents.utils import get_user_agent
 
-@csrf_exempt
-def my_view(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        # Do something with the data
-        return JsonResponse({'success': True})
+
 
 
 
@@ -19,13 +20,29 @@ def home(request):
 
 
 
+def get_QRCode(data):
+    qr = qrcode.QRCode(box_size=10, border=4)
+    qr.add_data(data)
+    qr.make(fit=True)
+
+    # convert to PIL.Image object
+    img = qr.make_image(fill_color="black", back_color="white")
+    buffer = BytesIO()
+    img.save(buffer, format='PNG')
+    image_file = ContentFile(buffer.getvalue())
+    return image_file
+
 
 
 @csrf_exempt
 def link(request):
     if request.method == "POST":
         data = json.loads(request.body)
+
         original = Link.objects.create(original=data.get('url'))
+        if request.user.is_authenticated:
+            original.user = request.user
+            original.qr_code.save(f'{original.slug}.png', get_QRCode(data.get('url')))
         if original:
             return JsonResponse({'message': original.hash, 'id': original.id})
         else:
@@ -35,9 +52,36 @@ def link(request):
 
 
 
+def getLocaction(ip):
+    url = f"https://api.ipgeolocation.io/ipgeo?apiKey=2df9c865ff864fb4bcbf81ebbe0386eb&ip={ip}"
+    response = requests.get(url)
+    return response.json()
+
+
 def find(request, slug):
     url = get_object_or_404(Link, slug=slug)
-    # url = Link.objects.get(hash=hash)
-    return redirect(url.original)
+    agent = get_user_agent(request)
+
+    user_ip = request.META.get('REMOTE_ADDR')
+    try:
+        if not Location.objects.filter(ip=user_ip).exists():
+            location = Location.objects.create(
+                ip = user_ip,
+                os = agent.os[0],
+                browser = agent.browser[0],
+                country = getLocaction(user_ip).get('country'),
+                country_flag = getLocaction(user_ip).get("country_flag"),
+                country_code = getLocaction(user_ip).get("country_code"),
+                city = getLocaction(user_ip).get("city"),
+            )
+            View.objects.create(url=url, location=location)
+    except:
+        pass
+
+    if ("http" in url.original):
+        return redirect(url.original)
+    else:
+        return redirect(f"https://{url.original}")
+    
     
 
