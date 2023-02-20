@@ -62,17 +62,23 @@ def find(request, slug):
     url = get_object_or_404(Link, slug=slug)
     agent = get_user_agent(request)
 
-    user_ip = request.META.get('REMOTE_ADDR')
+    # user_ip = request.META.get('REMOTE_ADDR')
 
-    if not Location.objects.filter(ip=user_ip).exists():
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+
+    if not Location.objects.filter(ip=ip).exists():
         location = Location.objects.create(
-            ip=user_ip,
+            ip=ip,
             os=agent.os[0],
             browser=agent.browser[0],
-            country=getLocaction(user_ip).get('country'),
-            country_flag=getLocaction(user_ip).get("country_flag"),
-            country_code=getLocaction(user_ip).get("country_code"),
-            city=getLocaction(user_ip).get("city"),
+            country=getLocaction(ip).get('country_name'),
+            country_flag=getLocaction(ip).get("country_flag"),
+            country_code=getLocaction(ip).get("country_code3"),
+            city=getLocaction(ip).get("city"),
         )
         View.objects.create(url=url, location=location,user=url.user)
 
