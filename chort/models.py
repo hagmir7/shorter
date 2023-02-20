@@ -14,11 +14,6 @@ class Location(models.Model):
 
 
 
-
-
-
-
-
 class Link(models.Model):
     original = models.CharField(max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -54,4 +49,29 @@ class View(models.Model):
     url = models.ForeignKey(Link, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
+
+
+
+
+class Post(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=150)
+    description = models.TextField()
+    image = models.ImageField(upload_to='Post', null=True, blank=True, default="d_post.webp")
+    body = models.TextField()
+    tags = models.CharField(max_length=150, null=True, blank=True)
+    is_page = models.BooleanField(default=False)
+    slug = models.SlugField(null=True, blank=True, unique=True)
+    date = models.DateField(auto_now_add=True)
+
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = get_random_string(length=15)
+        super(Post, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+        
+
 

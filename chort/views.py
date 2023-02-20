@@ -63,20 +63,19 @@ def find(request, slug):
     agent = get_user_agent(request)
 
     user_ip = request.META.get('REMOTE_ADDR')
-    try:
-        if not Location.objects.filter(ip=user_ip).exists():
-            location = Location.objects.create(
-                ip = user_ip,
-                os = agent.os[0],
-                browser = agent.browser[0],
-                country = getLocaction(user_ip).get('country'),
-                country_flag = getLocaction(user_ip).get("country_flag"),
-                country_code = getLocaction(user_ip).get("country_code"),
-                city = getLocaction(user_ip).get("city"),
-            )
-            View.objects.create(url=url, location=location)
-    except:
-        pass
+
+    if not Location.objects.filter(ip=user_ip).exists():
+        location = Location.objects.create(
+            ip=user_ip,
+            os=agent.os[0],
+            browser=agent.browser[0],
+            country=getLocaction(user_ip).get('country'),
+            country_flag=getLocaction(user_ip).get("country_flag"),
+            country_code=getLocaction(user_ip).get("country_code"),
+            city=getLocaction(user_ip).get("city"),
+        )
+        View.objects.create(url=url, location=location,user=url.user)
+
 
     if ("http" in url.original):
         return redirect(url.original)
