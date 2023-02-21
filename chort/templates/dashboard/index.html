@@ -1,46 +1,52 @@
 {% extends 'dash.html' %}
 {% block content %}
-<div class="row">
-  <div class="col-md-8">
-    <div id="root" ></div>
-  </div>
-</div>
+<div id="root"></div>
 <script type="text/babel">
   function BarChart() {
     const chartRef = React.useRef(null);
+    const [data, setData ] = React.useState('');
 
 
 
     React.useEffect( async ()=> {
-      await fetch('/chart/country').then(responst => responst.json())
+      await fetch('/chart/country', {
+        'Content-Type': 'application/json'
+      })
+      .then(responst => responst.json())
       .then(result=>{
-        console.log(result.data)
-        result.data.map(item=>{
-          const myChartRef = chartRef.current.getContext("2d");
-            new Chart(myChartRef, {
-              type: "bar",
-              data: {
-                labels: result.data.map(item=>item.country),
-                datasets: [
-                  {
-                    label: "Sales",
-                    data: result.data.map(item=>item.number),
-                    backgroundColor: "rgba(54, 162, 235, 0.2)",
-                    borderColor: "rgba(54, 162, 235, 1)",
-                    borderWidth: 1,
-                  },
-                ],
+        const myChartRef = chartRef.current.getContext("2d");
+        new Chart(myChartRef, {
+          type: "bar",
+          data: {
+            labels: result.data.map(item => item.country_code),
+            datasets: [
+              {
+                label: "Views",
+                data: result.data.map(item => item.count),
+                backgroundColor: "rgba(54, 162, 235, 0.2)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1,
               },
-              options: {
-                scales: {
-                  y: {
-                    beginAtZero: true,
-                  },
-                },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
               },
-            });
-          
-        })
+            },
+          },
+        });
+        // Set data
+        setData(result.data.map(item => {
+          return (
+            <li class="list-group-item p-1">
+              {item.country_code} : {item.country.length > 15 ? item.country.slice(0, 15)+ '...' :
+                item.country} ({item.count})
+            </li>
+          )
+        }))
+
       }).catch(error=>{
         console.log(error)
       })
@@ -57,7 +63,16 @@
     }
 
     return (
-        <canvas width="100%" id="myChart" ref={chartRef} />
+      <div class='row'>
+        <div class='col-md-9'>
+          <h2 class="h4">Top 10 traffic Countries</h2>
+          <canvas width="100%" id="myChart" ref={chartRef} />
+        </div>
+        <div class="col-md-3">
+          <ul class="list-group">{data}</ul>
+        </div>
+      </div>
+        
     );
   }
 

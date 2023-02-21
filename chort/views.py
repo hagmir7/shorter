@@ -10,6 +10,7 @@ from django.core.files.base import ContentFile
 from django.shortcuts import render
 from django_user_agents.utils import get_user_agent
 from django.core import serializers
+from django.db.models import Count
 
 
 
@@ -74,6 +75,7 @@ def find(request, slug):
     if not Location.objects.filter(ip=ip).exists():
         location = Location.objects.create(
             ip=ip,
+            user = url.user,
             os=agent.os[0],
             browser=agent.browser[0],
             country=getLocaction(ip).get('country_name'),
@@ -90,14 +92,21 @@ def find(request, slug):
         return redirect(f"https://{url.original}")
 
 
+
+
 def countryChart(request):
-    query = 'SELECT *, count(*) as number FROM chort_location GROUP BY country ORDER BY number'
-    locations = Location.objects.raw(query)[0: 1]
+
+    locations = Location.objects.values('country_code', 'country') \
+    .annotate(count=Count('country_code')) \
+    .order_by('-count')[0:10]
+
+
     data = []
     for item in locations:
         data.append({
-            "country": item.country,
-            "number":  item.number,
+            "country_code": item.get('country_code'),
+            "count":  item.get('count'),
+            "country": item.get('country'),
         })
 
     return JsonResponse({'data': data})

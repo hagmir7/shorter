@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Location(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     ip = models.CharField(max_length=100)
     country = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=100, null=True, blank=True)
@@ -11,6 +12,10 @@ class Location(models.Model):
     country_code = models.CharField(max_length=10, null=True, blank=True)
     browser = models.CharField(max_length=100, null=True, blank=True)
     os = models.CharField(max_length=100, null=True, blank=True)
+
+
+
+
 
 
 
@@ -69,6 +74,9 @@ class Post(models.Model):
         if not self.slug:
             self.slug = get_random_string(length=15)
         super(Post, self).save(*args, **kwargs)
+
+
+
 
     def __str__(self):
         return self.title
