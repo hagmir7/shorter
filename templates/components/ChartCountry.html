@@ -1,11 +1,8 @@
-<div id="country-chart"></div>
+<div id="country-chart" class="mt-3"></div>
 <script type="text/babel">
   function BarChart() {
     const chartRef = React.useRef(null);
     const [data, setData] = React.useState('');
-
-
-
     React.useEffect(async () => {
       await fetch('/chart/country', {
         'Content-Type': 'application/json'
@@ -39,7 +36,7 @@
           setData(result.data.map(item => {
             return (
               <li class="list-group-item px-2 py-1">
-                {item.country_code} : &#xa0; {item.country} ({item.count})
+                 <img width="30px" src={item.flag} alt={item.country} />&#xa0; {item.country_code} : &#xa0; {item.country} ({item.count})
               </li>
             )
           }))

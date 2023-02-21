@@ -1,7 +1,7 @@
-{% for date, post_count in post_counts %}
-    <div class="post-count">
-        <p>{{ date }}: {{ post_count }}</p>
+{% for date, view_count in view_counts %}
+    <div class="view-count">
+        <p>{{ date }}: {{ view_count }}</p>
     </div>
 {% empty %}
-    <p>No recent posts found.</p>
+    <p>No recent views found.</p>
 {% endfor %}

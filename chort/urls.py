@@ -12,7 +12,7 @@ urlpatterns = [
     path('settings',  settings, name='settings'),
     path('contact',  contact, name='contact'),
     path('chart/country', countryChart, name="country_chart"),
-    path('recent_views', recent_views),
+    path('chart/views', viewsChart),
 
 
 

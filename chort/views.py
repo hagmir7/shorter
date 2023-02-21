@@ -102,7 +102,7 @@ def find(request, slug):
 
 def countryChart(request):
 
-    locations = Location.objects.values('country_code', 'country') \
+    locations = Location.objects.values('country_code', 'country', 'country_flag') \
     .annotate(count=Count('country_code')) \
     .filter(user=request.user).order_by('-count')[0:10]
 
@@ -113,6 +113,7 @@ def countryChart(request):
             "country_code": item.get('country_code'),
             "count":  item.get('count'),
             "country": item.get('country'),
+            "flag": item.get('country_flag'),
         })
 
     return JsonResponse({'data': data})
@@ -146,27 +147,34 @@ def contact(request):
 
 
 
-def recent_views(request):
-    seven_days_ago = timezone.now() - timedelta(days=7)
-    recent_views = Location.objects.filter(date=seven_days_ago)
+def viewsChart(request):
+    seven_days_ago = (timezone.now() - timedelta(days=7)).strftime('%Y-%m-%d')
+    now = timezone.now().strftime('%Y-%m-%d')
+
+
+    recent_views = Location.objects.filter(date__range=(seven_days_ago, now))
+
 
     # Create a dictionary to store the post counts by day
-    location_counts_by_day = {}
-    for post in recent_views:
-        created_at_day = post.date.strftime('%Y-%m-%d')
-        location_counts_by_day[created_at_day] = location_counts_by_day.get(created_at_day, 0) + 1
+    view_counts_by_day = {}
+    for view in recent_views:
+        created_at_day = view.date.strftime('%Y-%m-%d')
+        view_counts_by_day[created_at_day] = view_counts_by_day.get(created_at_day, 0) + 1
 
-    # Create a list of tuples that contains the date and the post count for each day
-    post_counts = []
+
+    # Create a list of tuples that contains the date and the view count for each day
+    view_counts = []
     for i in range(7):
         date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
-        post_count = location_counts_by_day.get(date, 0)
-        post_counts.append((date, post_count))
-
+        view_count = view_counts_by_day.get(date, 0)
+        view_counts.append((date, view_count))
+    
+    
+    view_counts.reverse()
     context = {
-        'post_counts': post_counts,
+        'data': view_counts,
     }
-    return render(request, 'recent_views.html', context)
+    return JsonResponse(context)
     
     
 

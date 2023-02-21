@@ -12,7 +12,7 @@ class Location(models.Model):
     country_code = models.CharField(max_length=10, null=True, blank=True)
     browser = models.CharField(max_length=100, null=True, blank=True)
     os = models.CharField(max_length=100, null=True, blank=True)
-    date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    date = models.DateField(auto_now_add=True, null=True, blank=True)
 
 
 
