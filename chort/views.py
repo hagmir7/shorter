@@ -152,7 +152,7 @@ def viewsChart(request):
     now = timezone.now().strftime('%Y-%m-%d')
 
 
-    recent_views = Location.objects.filter(date__range=(seven_days_ago, now))
+    recent_views = Location.objects.filter(date__range=(seven_days_ago, now), user=request.user)
 
 
     # Create a dictionary to store the post counts by day

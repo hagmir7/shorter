@@ -17,7 +17,7 @@
 	<div class="wrapper d-flex align-items-stretch">
 		<nav id="sidebar">
 			<div class="custom-menu">
-				<button type="button" id="sidebarCollapse" class="btn btn-primary">
+				<button type="button" id="sidebarCollapse" style="z-index: 99;" class="btn btn-primary">
 					<i class="fa fa-bars"></i>
 					<span class="sr-only">Toggle Menu</span>
 				</button>
@@ -64,7 +64,7 @@
 
 		
 		<!-- Page Content  -->
-		<div id="content" class="px-5 mt-2  pt-0 pb-5">
+		<div id="content" class="pt-0 pb-5">
 			{% include "components/dash-header.html" %}
 			{% block content %}
 
