@@ -1,0 +1,7 @@
+{% for date, post_count in post_counts %}
+    <div class="post-count">
+        <p>{{ date }}: {{ post_count }}</p>
+    </div>
+{% empty %}
+    <p>No recent posts found.</p>
+{% endfor %}

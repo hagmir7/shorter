@@ -12,6 +12,10 @@ from django_user_agents.utils import get_user_agent
 from django.core import serializers
 from django.db.models import Count
 
+from django.utils import timezone
+from datetime import timedelta
+
+
 
 
 
@@ -138,6 +142,31 @@ def settings(request):
 
 def contact(request):
     return render(request, 'dashboard/contact.html')
+
+
+
+
+def recent_views(request):
+    seven_days_ago = timezone.now() - timedelta(days=7)
+    recent_views = Location.objects.filter(date=seven_days_ago)
+
+    # Create a dictionary to store the post counts by day
+    location_counts_by_day = {}
+    for post in recent_views:
+        created_at_day = post.date.strftime('%Y-%m-%d')
+        location_counts_by_day[created_at_day] = location_counts_by_day.get(created_at_day, 0) + 1
+
+    # Create a list of tuples that contains the date and the post count for each day
+    post_counts = []
+    for i in range(7):
+        date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
+        post_count = location_counts_by_day.get(date, 0)
+        post_counts.append((date, post_count))
+
+    context = {
+        'post_counts': post_counts,
+    }
+    return render(request, 'recent_views.html', context)
     
     
 
