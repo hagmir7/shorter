@@ -83,7 +83,8 @@ def find(request, slug):
             country_code=getLocaction(ip).get("country_code3"),
             city=getLocaction(ip).get("city"),
         )
-        View.objects.create(url=url, location=location,user=url.user)
+        url.views.add(location)
+        url.save()
 
 
     if ("http" in url.original):
