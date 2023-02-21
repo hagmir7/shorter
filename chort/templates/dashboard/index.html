@@ -12,9 +12,7 @@
 
 
     React.useEffect( async ()=> {
-      await fetch('/chart/country', {
-        'Content-Type': 'application/json'
-      }).then(responst => responst.json())
+      await fetch('/chart/country').then(responst => responst.json())
       .then(result=>{
         console.log(result.data)
         result.data.map(item=>{
