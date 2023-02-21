@@ -83,10 +83,11 @@ def find(request, slug):
             country_code=getLocaction(ip).get("country_code3"),
             city=getLocaction(ip).get("city"),
         )
-        url.views.add(location)
-        url.save()
+    else:
+        location = Location.objects.get(ip=ip)
 
-
+    url.views.add(location)
+    url.save()
     if ("http" in url.original):
         return redirect(url.original)
     else:
@@ -99,7 +100,7 @@ def countryChart(request):
 
     locations = Location.objects.values('country_code', 'country') \
     .annotate(count=Count('country_code')) \
-    .order_by('-count')[0:10]
+    .filter(user=request.user).order_by('-count')[0:10]
 
 
     data = []

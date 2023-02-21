@@ -1,0 +1,66 @@
+<div id="country-chart"></div>
+<script type="text/babel">
+  function BarChart() {
+    const chartRef = React.useRef(null);
+    const [data, setData] = React.useState('');
+
+
+
+    React.useEffect(async () => {
+      await fetch('/chart/country', {
+        'Content-Type': 'application/json'
+      })
+        .then(responst => responst.json())
+        .then(result => {
+          const myChartRef = chartRef.current.getContext("2d");
+          new Chart(myChartRef, {
+            type: "bar",
+            data: {
+              labels: result.data.map(item => item.country_code),
+              datasets: [
+                {
+                  label: "Countries",
+                  data: result.data.map(item => item.count),
+                  backgroundColor: "rgba(54, 162, 235, 0.2)",
+                  borderColor: "rgba(54, 162, 235, 1)",
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true,
+                },
+              },
+            },
+          });
+          // Set data
+          setData(result.data.map(item => {
+            return (
+              <li class="list-group-item px-2 py-1">
+                {item.country_code} : &#xa0; {item.country} ({item.count})
+              </li>
+            )
+          }))
+
+        }).catch(error => {
+          console.log(error)
+        })
+    }, []);
+
+    return (
+      <div class='row d-flex justify-content-center'>
+        <div class='col-md-9'>
+          <h2 class="h4">Top 10 traffic Countries</h2>
+          <canvas width="100%" id="myChart" ref={chartRef} />
+          <ul class="list-group mt-2">{data}</ul>
+        </div>
+
+      </div>
+
+    );
+  }
+
+  ReactDOM.render(<BarChart />, document.getElementById('country-chart'));
+</script>
