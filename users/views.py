@@ -29,7 +29,7 @@ def login_view(request):
             if authenticate(username=username, password=password):
                 user = authenticate(username=username, password=password)
                 login(request, user)
-                return redirect('/')
+                return redirect('/dashboard')
             else:
                 messages.add_message(request, messages.ERROR, _('Password is incorrect!'))
                 return redirect('login')

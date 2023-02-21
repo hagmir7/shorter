@@ -1,0 +1,22 @@
+{% extends 'dash.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="row d-flex justify-content-center">
+    <div class="col-md-6">
+        <h1 class="h4">Contact us</h1>
+        <form action="{% url 'contact' %}">
+            <label> Full name</label>
+            <input type="text" name="full_name" maxlength="60" class="form-control mb-2 border" placeholder="Full name" required>
+            <label> Email</label>
+            <input type="email" name="email" maxlength="60" class="form-control mb-2 border" placeholder="Email" required>
+            <label> Message</label>
+            <textarea class="form-control border" name="body" cols="30" rows="5" required></textarea>
+            <button class="btn btn-success mt-2 w-100" type="submit">Send</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

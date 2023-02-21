@@ -3,15 +3,19 @@ from .views import *
 from django.contrib.auth import views as auth_view
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext as _
+from django.contrib.auth.views import LoginView, LogoutView
+
 
 
 urlpatterns = [
     path('user/<slug:slug>', ProfileView.as_view(), name='profile'),
-    path('profile_update/<int:pk>/', login_required(ProfileViewUpdate.as_view()), name='profile_update'),
-    path('user_update_info/', login_required(user_update_info), name='user_update_info'),
+    path('profile/update/<int:pk>/', login_required(ProfileViewUpdate.as_view()), name='profile_update'),
+    path('user/update/info/', login_required(user_update_info), name='user_update_info'),
     path('accounts/register', register, name='register',),
     path('accounts/login/', login_view, name='login'),
-    path('accounts/change_password/', login_required(PasswordChange.as_view()), name='change_password'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+
+    path('accounts/change/password/', login_required(PasswordChange.as_view()), name='change_password'),
     path('reset_passaword/', auth_view.PasswordResetView.as_view(template_name='password_reset/reset_password.html',
      title=_('Forgot Password'),
      success_url = reverse_lazy('password_reset_done_new')), name='reset_password'),

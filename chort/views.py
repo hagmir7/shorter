@@ -9,6 +9,7 @@ from io import BytesIO
 from django.core.files.base import ContentFile
 from django.shortcuts import render
 from django_user_agents.utils import get_user_agent
+from django.core import serializers
 
 
 
@@ -87,6 +88,45 @@ def find(request, slug):
         return redirect(url.original)
     else:
         return redirect(f"https://{url.original}")
+
+
+def countryChart(request):
+    query = 'SELECT *, count(*) as number FROM chort_location GROUP BY country ORDER BY number'
+    locations = Location.objects.raw(query)[0: 1]
+    data = []
+    for item in locations:
+        data.append({
+            "country": item.country,
+            "number":  item.number,
+        })
+
+    return JsonResponse({'data': data})
+
+
+def dashboard(request):
+    context = {}
+    return render(request, 'dashboard/index.html', context)
+
+
+
+def links(request):
+    return render(request, 'dashboard/links.html')
+
+
+def QRcodes(request):
+    return render(request, 'dashboard/qr-codes.html')
+
+
+def customLinks(request):
+    return render(request, 'dashboard/custom-links.html')
+
+
+def settings(request):
+    return render(request, 'dashboard/settings.html')
+
+
+def contact(request):
+    return render(request, 'dashboard/contact.html')
     
     
 
