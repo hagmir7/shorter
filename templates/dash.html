@@ -3,17 +3,15 @@
 <html lang="en">
 
 <head>
-	<title>Sidebar 05</title>
+	<title>Dashboard - Agmir</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="{% static 'dash/css/style.css' %}">
-
 </head>
 
 <body>
-
 	<div class="wrapper d-flex align-items-stretch">
 		<nav id="sidebar">
 			<div class="custom-menu">
@@ -21,7 +19,6 @@
 					<i class="fa fa-bars"></i>
 					<span class="sr-only">Toggle Menu</span>
 				</button>
-				
 			</div>
 			<div class="p-4">
 				<h1><a href="{% url 'dashboard' %}" class="logo">Agmir <span>{{user.first_name}} {{user.last_name}}</span></a></h1>
@@ -59,15 +56,10 @@
 
 			</div>
 		</nav>
-
-		
-
-		
 		<!-- Page Content  -->
-		<div id="content" class="pt-0 pb-5">
+		<div id="content" class="pt-0 pb-5 container-sm">
 			{% include "components/dash-header.html" %}
 			{% block content %}
-
 			{% endblock %}
 		</div>
 	</div>

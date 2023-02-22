@@ -1,4 +1,4 @@
-<div id="country-chart" class="mt-3"></div>
+<div id="country-chart" class="mt-3 container"></div>
 <script type="text/babel">
   function BarChart() {
     const chartRef = React.useRef(null);
@@ -48,7 +48,7 @@
 
     return (
       <div class='row d-flex justify-content-center'>
-        <div class='col-md-9'>
+        <div class='col-md-9 card py-2'>
           <h2 class="h6">Top 10 traffic Countries</h2>
           <canvas width="100%" id="myChart" ref={chartRef} />
           <ul class="list-group mt-2">{data}</ul>

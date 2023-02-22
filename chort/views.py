@@ -15,6 +15,8 @@ from django.db.models import Count
 from django.utils import timezone
 from datetime import timedelta
 
+from django.core.paginator import Paginator
+
 
 
 
@@ -126,7 +128,18 @@ def dashboard(request):
 
 
 def links(request):
-    return render(request, 'dashboard/links.html')
+
+    links = Link.objects.filter(user=request.user)
+    paginator = Paginator(links, 30)
+
+    page = request.GET.get('page')
+    urls = paginator.get_page(page)
+
+    context = {
+        'urls': urls
+    }
+    
+    return render(request, 'dashboard/links.html', context)
 
 
 def QRcodes(request):

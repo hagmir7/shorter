@@ -1,4 +1,4 @@
-<div id="views-chart"></div>
+<div id="views-chart" class='container'></div>
 <script type="text/babel">
   function BarChart() {
     const chartRef = React.useRef(null);
@@ -41,7 +41,7 @@
 
     return (
       <div class='row mt-2 d-flex justify-content-center'>
-        <div class='col-md-9'>
+        <div class='col-md-9 card py-2'>
           <h2 class="h6 mb-0">Traffic in last 7 days</h2>
           <canvas width="100%" id="myChart" ref={chartRef} />
         </div>
