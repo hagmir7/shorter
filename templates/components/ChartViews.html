@@ -3,6 +3,11 @@
   function BarChart() {
     const chartRef = React.useRef(null);
 
+    const options = {
+      day: '2-digit',
+      timeZone: 'UTC',
+    };
+
     React.useEffect(async () => {
       await fetch('/chart/views', {
         'Content-Type': 'application/json'
@@ -13,7 +18,7 @@
           new Chart(ctx, {
             type: 'line',
             data: {
-              labels: result.data.map(item=> item[0]),
+              labels: result.data.map(item=> new Intl.DateTimeFormat('en', { weekday: 'short' }).format(new Date(item[0]))  ),
               datasets: [{
                 label: 'Last 7 days',
                 data: result.data.map(item=> item[1]),
@@ -35,9 +40,9 @@
 
 
     return (
-      <div class='row d-flex justify-content-center'>
+      <div class='row mt-2 d-flex justify-content-center'>
         <div class='col-md-9'>
-          <h2 class="h4">Traffic in last 7 days</h2>
+          <h2 class="h6 mb-0">Traffic in last 7 days</h2>
           <canvas width="100%" id="myChart" ref={chartRef} />
         </div>
       </div>

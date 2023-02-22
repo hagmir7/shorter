@@ -13,6 +13,7 @@ urlpatterns = [
     path('contact',  contact, name='contact'),
     path('chart/country', countryChart, name="country_chart"),
     path('chart/views', viewsChart),
+    path('dash/views', dash),
 
 
 

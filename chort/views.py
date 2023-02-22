@@ -175,6 +175,34 @@ def viewsChart(request):
         'data': view_counts,
     }
     return JsonResponse(context)
+
+
+
+def dash(request):
+    seven_days_ago = (timezone.now() - timedelta(days=7)).strftime('%Y-%m-%d')
+    yestrday = (timezone.now() - timedelta(days=1)).strftime('%Y-%m-%d')
+    now = timezone.now().strftime('%Y-%m-%d')
+
+    current_month = timezone.now().month
+    current_year = timezone.now().year
+
+
+    last_seven_days = Location.objects.filter(date__range=(seven_days_ago, now), user=request.user).count()
+
+    yestrday = Location.objects.filter(date=yestrday, user=request.user).count()
+
+    today = Location.objects.filter(date=now, user=request.user).count()
+
+    month = Location.objects.filter(date__month=current_month,date__year=current_year, user=request.user).count()
+
+
+    context = {
+        'week': last_seven_days,
+        'yestrday': yestrday,
+        'today': today,
+        'month': month
+    }
+    return JsonResponse({"data": context})
     
     
 

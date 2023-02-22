@@ -92,23 +92,14 @@ WSGI_APPLICATION = 'agmir.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': "django.db.backends.postgresql_psycopg2",
-        'NAME': "postgres",
-        'USER': "postgres",
-        'PASSWORD': "a6DCEcIagG7gDys7Z4Am",
-        'HOST': "containers-us-west-153.railway.app",
-        'PORT': "7054",
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
 
 
 # Password validation
@@ -167,3 +158,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+
+if os.getcwd() == '/app':
+    DATABASES = {
+        'default': {
+            'ENGINE': "django.db.backends.postgresql_psycopg2",
+            'NAME': "postgres",
+            'USER': "postgres",
+            'PASSWORD': "a6DCEcIagG7gDys7Z4Am",
+            'HOST': "containers-us-west-153.railway.app",
+            'PORT': "7054",
+        }
+    }

@@ -1,6 +1,84 @@
 {% extends 'dash.html' %}
 {% block content %}
 
+<div id="dash"></div>
+<style>
+    .dash {
+        background-color:#37517e;
+    }
+</style>
+
+<script type="text/babel">
+
+        function Dash() {
+
+            const [data, setData] = React.useState('');
+
+            React.useEffect(async () => {
+                await fetch('/dash/views', {
+                    'Content-Type': 'applicatin/json'
+                }).then(response => response.json())
+                .then(result => {
+                    setData(result.data)
+                }).catch(error => {
+                    console.log(error)
+                })
+            }, []);
+
+
+
+
+        return (
+            <div class="row  d-flex justify-content-center ">
+                <div class="row rounded dash col-md-9 text-white">
+                    <div class="col-md-3 col-6">
+                        {
+                            data === '' ? <div class="spinner-border p-3 m-4" role="status"></div> :
+                            <div><p class='p-0 mt-2 m-0'>Today views</p>
+                            <h2 class="text-white">{new Intl.NumberFormat('en', { notation: 'compact'}).format(data.today)}</h2></div>
+                        }
+                    </div>
+                    <div class="col-md-3 col-6">
+                        {
+                            data === '' ? <div class="spinner-border p-3 m-4" role="status"></div> :
+                            <div><p class='p-0 mt-2 m-0'>Yestrday views</p>
+                            <h2 class="text-white">{new Intl.NumberFormat('en', { notation: 'compact'}).format(data.yestrday)}</h2></div>
+                        }
+                        
+                    </div>
+
+                    <div class="col-md-3 col-6">
+                        {
+                            data === '' ? <div class="spinner-border p-3 m-4" role="status"></div> :
+                            <div><p class='p-0 mt-2 m-0'>Last 7 days</p>
+                            <h2 class="text-white">{new Intl.NumberFormat('en', { notation: 'compact'}).format(data.week)}</h2></div>
+                        }
+                    </div>
+
+                    <div class="col-md-3 col-6">
+                        {
+                            data === '' ? <div class="spinner-border p-3 m-4" role="status"></div> :
+                            <div><p class='p-0 mt-2 m-0'>This Month</p>
+                            <h2 class="text-white">{new Intl.NumberFormat('en', { notation: 'compact'}).format(data.month)}</h2></div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        
+        )
+
+
+    }
+
+    ReactDOM.render(<Dash />, document.getElementById('dash'))
+
+
+</script>
+
+
+
+
 {% include 'components/ChartViews.html' %}
 {% include 'components/ChartCountry.html' %}
 {% endblock content %}
