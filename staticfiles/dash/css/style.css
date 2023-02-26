@@ -53,6 +53,15 @@ html {
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
 
+
+
+.copy-alert{
+  position: absolute!important;
+  top: 12px;
+  right: 50%;
+  padding: 6px!important;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -1625,21 +1634,7 @@ pre {
     outline: 0;
     -webkit-box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
-  .form-control::-webkit-input-placeholder {
-    color: #6c757d;
-    opacity: 1; }
-  .form-control:-ms-input-placeholder {
-    color: #6c757d;
-    opacity: 1; }
-  .form-control::-ms-input-placeholder {
-    color: #6c757d;
-    opacity: 1; }
-  .form-control::placeholder {
-    color: #6c757d;
-    opacity: 1; }
-  .form-control:disabled, .form-control[readonly] {
-    background-color: #e9ecef;
-    opacity: 1; }
+
 
 select.form-control:focus::-ms-value {
   color: #495057;
@@ -1685,8 +1680,8 @@ select.form-control:focus::-ms-value {
     padding-left: 0; }
 
 .form-control-sm {
-  height: calc(1.5em + 0.5rem + 2px);
-  padding: 0.25rem 0.5rem;
+  height: calc(1.5em + 0.5rem + 2px)!important;
+  padding: 0.25rem 0.5rem!important;
   font-size: 0.875rem;
   line-height: 1.5;
   border-radius: 0.2rem; }
@@ -8329,7 +8324,6 @@ a[data-toggle="collapse"] {
   color: rgba(255, 255, 255, 0.5); }
 
 .form-control {
-  height: 40px !important;
   background: #fff;
   color: #000;
   font-size: 13px;
@@ -8337,20 +8331,6 @@ a[data-toggle="collapse"] {
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   border: transparent; }
-  .form-control:focus, .form-control:active {
-    border-color: #000; }
-  .form-control::-webkit-input-placeholder {
-    /* Chrome/Opera/Safari */
-    color: rgba(255, 255, 255, 0.5); }
-  .form-control::-moz-placeholder {
-    /* Firefox 19+ */
-    color: rgba(255, 255, 255, 0.5); }
-  .form-control:-ms-input-placeholder {
-    /* IE 10+ */
-    color: rgba(255, 255, 255, 0.5); }
-  .form-control:-moz-placeholder {
-    /* Firefox 18- */
-    color: rgba(255, 255, 255, 0.5); }
 
 .subscribe-form .form-control {
   background: #3b4ec6; }

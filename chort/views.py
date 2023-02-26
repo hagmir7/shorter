@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import JsonResponse
 from .models import *
+from .froms import *
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 import json
 import requests
 import qrcode
@@ -11,7 +13,7 @@ from django.shortcuts import render
 from django_user_agents.utils import get_user_agent
 from django.core import serializers
 from django.db.models import Count
-
+from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from datetime import timedelta
 
@@ -129,7 +131,7 @@ def dashboard(request):
 
 def links(request):
 
-    links = Link.objects.filter(user=request.user)
+    links = Link.objects.filter(user=request.user).order_by('-created')
     paginator = Paginator(links, 30)
 
     page = request.GET.get('page')
@@ -142,12 +144,58 @@ def links(request):
     return render(request, 'dashboard/links.html', context)
 
 
+def createUrl(request):
+    form = LinkForm()
+    if request.method == "POST":
+        form = LinkForm(data=request.POST)
+        if form.is_valid():
+            url = form.save(commit=False)
+            url.user = request.user
+            url.save()
+            messages.success(request, _('URL Created successfully.'))
+        else:
+            messages.success(request, _("Fiel to create URL."))
+    return redirect('/links')
+
+
+
 def QRcodes(request):
     return render(request, 'dashboard/qr-codes.html')
 
 
+
+
 def customLinks(request):
-    return render(request, 'dashboard/custom-links.html')
+
+    links = Link.objects.filter(user=request.user, custome=True).order_by('-created')
+    paginator = Paginator(links, 30)
+
+    page = request.GET.get('page')
+    urls = paginator.get_page(page)
+
+    context = {
+        'urls': urls
+    }
+    return render(request, 'dashboard/custom-links.html', context)
+
+def createCustomeLink(request):
+    form = LinkForm()
+    if request.method == "POST":
+        form = LinkForm(data=request.POST)
+        if form.is_valid():
+            url = form.save(commit=False)
+            if not Link.objects.filter(slug=url.slug).exists():
+                url.user = request.user
+                url.custome = True
+                url.save()
+                messages.success(request, _('URL Created successfully.'))
+            else:
+                messages.warning(request, _("URL already exists."))
+
+        else:
+            messages.success(request, _("Fiel to create URL."))
+
+    return redirect('/custome/links')
 
 
 def settings(request):

@@ -3,5 +3,83 @@
 {% load i18n %}
 
 {% block content %}
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <ul class="list-group col-md-8">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success p-1 mb-2">{{message}}</div>
+                {% endfor %}
+            {% endif %}
+            <form action="/url/create" method="POST">
+                {% csrf_token %}
+                <div class="input-group mb-2 d-flex gap-1">
+                    <input type="text" name="original" class="form-control border form-control-sm mr-2 rounded" placeholder="New URL">
+                    <button type="submit" class="btn btn-success btn-sm">Create</button>
+                </div>
+            </form>
+            {% for url in urls %}
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-12 col-md-10">
+                  <p style="font-family: 'ABCDiatype';" class="mb-0"><strong style="font-size: large;" class="h6">{{url.hash}}</strong> <br>
+                    {{url.original|truncatechars:50}}
+                  </p>
+                </div>
+                <div class="col-12 col-md-2">
+                  <button class="btn btn-primary btn-sm w-100" onclick="copyToClipboard('{{url.hash}}');">Copy</button>
+                </div>
+              </div>
+            </li>
+            {% empty %}
 
+            <div class="card">
+                <h3>No URLs</h3>
+            </div>
+            {% endfor %}
+
+            {% if urls.has_other_pages %}
+                <ul class="pagination m-auto pt-2">
+                    {% if urls.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ urls.previous_page_number }}">Previous</a></li>
+                    {% endif %}
+                    {% for i in urls.paginator.page_range %}
+                        {% if urls.number == i %}
+                            <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if urls.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ urls.next_page_number }}">Next</a></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+          </ul>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard(text) {
+        const el = document.createElement('textarea');
+        el.value = text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        // alert('Copied to clipboard!');
+
+        var alertDiv = document.createElement("div");
+        alertDiv.classList.add("alert", "copy-alert", "alert-success");
+        alertDiv.setAttribute("role", "alert");
+        alertDiv.innerText = "Copied";
+        document.body.appendChild(alertDiv);
+
+        
+
+        setTimeout(()=>{
+            alertDiv.remove()
+        }, 1000)
+    }
+</script>
 {% endblock content %}

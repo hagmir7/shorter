@@ -28,6 +28,7 @@ class Link(models.Model):
     slug = models.SlugField(max_length=30, null=True, blank=True)
     views = models.ManyToManyField(Location, blank=True, related_name='location')
     qr_code = models.ImageField(upload_to="QRCode", null=True, blank=True)
+    custome = models.BooleanField(default=False)
 
         
 
@@ -35,10 +36,13 @@ class Link(models.Model):
 
 
     def save(self, *args, **kwargs):
-        if not self.hash:
+        if not self.slug:
             random_str = get_random_string(length=5).upper()
             self.hash = f"https://agmir.link/{random_str}"
             self.slug = random_str
+        else:
+            self.hash = f"https://agmir.link/{self.slug}"
+            
 
 
         return super().save(*args, **kwargs)
