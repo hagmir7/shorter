@@ -4,8 +4,8 @@
 
 {% block content %}
 <div class="container">
-    <div class="row d-flex justify-content-center">
-        <url class="list-group col-md-8 p-0 p-1">
+    <div class="row p-1 d-flex justify-content-center">
+        <url class="list-group col-md-8 p-2">
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }} p-1 mb-2">{{message}}</div>
@@ -13,12 +13,12 @@
             {% endif %}
             <form action="/url/create/custom" method="POST">
                 {% csrf_token %}
-                <div class="input-group mb-2 d-flex gap-1">
-                    <input type="text" name="original" class="form-control border form-control-sm mr-2 rounded" placeholder="New URL" required>
-                    <input type="text" class="form-control border form-control-sm mr-2 rounded" readonly value="http://agmir.link/">
-                    <input type="text" maxlength="100" name="slug" class="form-control border form-control-sm mr-1 rounded" placeholder="Custome URL" required>
-                    <button type="submit" class="btn btn-success btn-sm">Create</button>
+                <div class="row mb-2 justify-content-between p-2">
+                    <input type="text" name="original" class="form-control border mt-1 form-control-sm col-md-3 rounded" placeholder="New URL" required>
+                    <input type="text" class="form-control border mt-1 form-control-sm col-md-3 rounded" readonly value="http://agmir.link/">
+                    <input type="text" maxlength="100" name="slug" class="form-control border mt-1 form-control-sm col-md-3 rounded" placeholder="Custome URL" required>
                 </div>
+                <button type="submit" class="btn btn-success btn-sm w-100 mb-2">Create</button>
             </form>
             {% for url in urls %}
             <li class="list-group-item">
