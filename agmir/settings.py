@@ -32,6 +32,7 @@ ALLOWED_HOSTS = [
     'https://agmir.link',
     'https://www.agmir.link' ,
     'www.agmir.link','agmir.link',
+    'www.agmir.site','agmir.site',
     "localhost"
 ]
 
@@ -39,6 +40,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://shorter.up.railway.app",
     'https://agmir.link',
     'https://www.agmir.link' ,
+    'https://agmir.site',
+    'https://www.agmir.site' ,
 ]
 
 
