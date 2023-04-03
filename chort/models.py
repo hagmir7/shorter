@@ -38,10 +38,10 @@ class Link(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             random_str = get_random_string(length=5).upper()
-            self.hash = f"https://agmir.link/{random_str}"
+            self.hash = f"https://frwsd.ink/{random_str}"
             self.slug = random_str
         else:
-            self.hash = f"https://agmir.link/{self.slug}"
+            self.hash = f"https://frwsd.ink/{self.slug}"
             
 
 
