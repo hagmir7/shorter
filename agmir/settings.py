@@ -33,7 +33,9 @@ ALLOWED_HOSTS = [
     'https://www.agmir.link' ,
     'www.agmir.link','agmir.link',
     'www.agmir.site','agmir.site',
-    "localhost"
+    "localhost",
+    "frwsd.ink",
+    "www.frwsd.ink"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -42,6 +44,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://www.agmir.link' ,
     'https://agmir.site',
     'https://www.agmir.site' ,
+    'https://www.frwsd.ink',
+    'https://frwsd.ink',
 ]
 
 
