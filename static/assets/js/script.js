@@ -92,7 +92,7 @@ const App = () => {
             <ul class="list-group mt-2 p-2 list-short-links" id="list-links">
                 <li class="list-group-item">
                     <div class="me-auto">
-                        <div class="fw-bold mb-2 bg-light rounded-pill p-1 px-3 text-center border">https://agmir.link/KDMIV</div>
+                        <div class="fw-bold mb-2 bg-light rounded-pill p-1 px-3 text-center border">https://frwsd.ink/KDMIV</div>
                         https://www.freewsad.com/books
                     </div>
                     <div class="mt-2">
